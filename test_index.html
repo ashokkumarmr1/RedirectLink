@@ -42,5 +42,89 @@
 
 <script src="'https://test.saferpay.com/Fields/lib/1.0/saferpay-fields.js'"></script> <!-- For Test-Environment-->
 
+
+<script type="text/javascript">
+    SaferpayFields.init({
+        // api key
+        apiKey: 'c5260558-91f7-4475-91b2-dcb72fd36c8c',
+        // api url
+        url: 'https://test.saferpay.com/Fields/242225',
+        style: {
+            '.form-control': 'border: none; border-bottom: solid 1px #ccc; border-radius: unset;',
+            '.form-control.is-valid, .was-validated .form-control:valid': 'border-color: #28a745;padding-right: calc(1.5em + .75rem); background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA4IDgnPjxwYXRoIGZpbGw9JyMyOGE3NDUnIGQ9J00yLjMgNi43M0wuNiA0LjUzYy0uNC0xLjA0LjQ2LTEuNCAxLjEtLjhsMS4xIDEuNCAzLjQtMy44Yy42LS42MyAxLjYtLjI3IDEuMi43bC00IDQuNmMtLjQzLjUtLjguNC0xLjEuMXonLz48L3N2Zz4=);background-repeat: no-repeat; background-position: 98% 50%; background-size: calc(.75em + .375rem) calc(.75em + .375rem);',
+			'.form-control.is-invalid, .was-validated .form-control:invalid': '  border-color: #dc3545;    padding-right: calc(1.5em + .75rem);background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9JyNkYzM1NDUnIHZpZXdCb3g9Jy0yIC0yIDcgNyc+PHBhdGggc3Ryb2tlPScjZGMzNTQ1JyBkPSdNMCAwbDMgM20wLTNMMCAzJy8+PGNpcmNsZSByPScuNScvPjxjaXJjbGUgY3g9JzMnIHI9Jy41Jy8+PGNpcmNsZSBjeT0nMycgcj0nLjUnLz48Y2lyY2xlIGN4PSczJyBjeT0nMycgcj0nLjUnLz48L3N2Zz4=);background-repeat: no-repeat;background-position: 98% 50%;    background-size: calc(.75em + .375rem) calc(.75em + .375rem);',
+            '.form-control.is-valid.is-pristine': 'background-image: unset; border-color:#CFCFCF;'
+        },
+        onSuccess: function(evt) {
+            console.log("===INIT SUCCESS===");
+            console.log(evt); //undefinded
+            $(".lds-spinner").remove();
+            $("#submit").removeAttr('disabled');
+        },
+        onError: function(evt) {
+            console.log("===INIT ERROR===");
+            console.log(evt); //undefined
+        },
+        placeholders: {
+            holdername: 'Card holder',
+            cardnumber: '0000 0000 0000 0000',
+            expiration: 'MM/YY',
+            cvc: 'CVC'
+        },
+        onBlur: function (evt) {
+            console.log("===BLURED===");
+            console.log(evt);
+        },
+        onValidated: function (evt) {
+            console.log("===VALIDATED===");
+            console.log(evt);
+            if(!evt.isValid){
+                $("#" + evt.id).attr('data-isvalid', 'false');
+            }else{
+                $("#" + evt.id).attr('data-isvalid', 'true');
+                $("#message").hide("fast")
+            }
+        },
+        onFocus: function (evt) {
+            console.log("===FOCUS===");
+            console.log(evt);
+        }
+    });
+
+    function submit(){
+        console.log("===SUBMIT===");
+        var panvalid = $("#fields-card-number").attr('data-isvalid');
+        var cvcvalid = $("#fields-cvc").attr('data-isvalid');
+        var holdervalid = $("#fields-holder-name").attr('data-isvalid');
+        var expvalid = $("#fields-expiration").attr('data-isvalid');
+        console.log("Field validation - PAN: " + panvalid + " CVC: " + cvcvalid + " HolderName: " + holdervalid + " Expiration: " + expvalid);
+        if(panvalid === "true" && cvcvalid === "true" && holdervalid === "true" && expvalid === "true"){
+            console.log("===DATA VALID => SUBMIT===");
+            SaferpayFields.submit({
+                onSuccess: function (evt) {
+                    console.log("===SUBMIT SUCCESS===");
+                    console.log(evt);
+                    $("#hf-token").val(evt.token);
+                    $("#amount").val($("#input-amount").val());
+                    $("#currency").val($("#input-currency").val());
+                    $("#address").submit();
+                },
+                onError: function (evt) {
+                    console.log("===SUBMIT ERROR===");
+                    console.log(evt);
+                    $("#message")
+                        .show("fast")
+                        .html("<p>" + evt.message + "</p>");
+                }
+            });
+        }else{
+            $("#message")
+                .show("fast")
+                .html("<p>Card details are invalid! Please check your input!</p>");
+        }
+    }
+
+</script>
+
 </body>
 </html>
