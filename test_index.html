@@ -5,6 +5,12 @@
 
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	  <link rel = "stylesheet"  type = "text/css"	href = "externalcss.css" />
+		
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="saferpay-fields.js"></script> <!-- For Test-Environment-->
 
   	<title> 
 		Test Page 
@@ -14,114 +20,64 @@
 
 <body>
 
-
+  <div class="container" id="main">
     <div class="row">
-	<div class="col-md-12 field">
-	    <div id="fields-holder-name"></div>
-	</div>
+      <input class="col-12" id="fields-holder-name" readonly>
     </div>
     <div class="row">
-	<div class="col-md-12 field">
-	    <div id="fields-card-number"></div>
-	</div>
+      <input class="col-12" id="fields-card-number" readonly>
     </div>
     <div class="row">
-	<div class="col-md-7 field">
-	    <div id="fields-expiration"></div>
-	</div>
-	<div class="col-md-5 field">
-	    <div id="fields-cvc"></div>
-	</div>
+      <input class="col-md-4" id="fields-expiration" readonly>
+      <input class="col-md-3" id="fields-cvc" readonly>
     </div>
-
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-<script src="'https://test.saferpay.com/Fields/lib/1.0/saferpay-fields.js'"></script> <!-- For Test-Environment-->
+    <div class="row">
+      <button class="col-md-4 btn btn-primary" id="submit" disabled="disabled">Pay</button>
+    </div>
+    <br />
+    <div class="row">
+      <span>Hosted-Fields token: </span>
+    </div>
+    <div class="row">
+      <input class="form-control" id="token" readonly="" type="text" />
+    </div>
+  </div>
+  
 
 
 <script type="text/javascript">
     SaferpayFields.init({
-        // api key
-        apiKey: 'c5260558-91f7-4475-91b2-dcb72fd36c8c',
-        // api url
-        url: 'https://test.saferpay.com/Fields/242225',
-        style: {
-            '.form-control': 'border: none; border-bottom: solid 1px #ccc; border-radius: unset;',
-            '.form-control.is-valid, .was-validated .form-control:valid': 'border-color: #28a745;padding-right: calc(1.5em + .75rem); background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA4IDgnPjxwYXRoIGZpbGw9JyMyOGE3NDUnIGQ9J00yLjMgNi43M0wuNiA0LjUzYy0uNC0xLjA0LjQ2LTEuNCAxLjEtLjhsMS4xIDEuNCAzLjQtMy44Yy42LS42MyAxLjYtLjI3IDEuMi43bC00IDQuNmMtLjQzLjUtLjguNC0xLjEuMXonLz48L3N2Zz4=);background-repeat: no-repeat; background-position: 98% 50%; background-size: calc(.75em + .375rem) calc(.75em + .375rem);',
-			'.form-control.is-invalid, .was-validated .form-control:invalid': '  border-color: #dc3545;    padding-right: calc(1.5em + .75rem);background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9JyNkYzM1NDUnIHZpZXdCb3g9Jy0yIC0yIDcgNyc+PHBhdGggc3Ryb2tlPScjZGMzNTQ1JyBkPSdNMCAwbDMgM20wLTNMMCAzJy8+PGNpcmNsZSByPScuNScvPjxjaXJjbGUgY3g9JzMnIHI9Jy41Jy8+PGNpcmNsZSBjeT0nMycgcj0nLjUnLz48Y2lyY2xlIGN4PSczJyBjeT0nMycgcj0nLjUnLz48L3N2Zz4=);background-repeat: no-repeat;background-position: 98% 50%;    background-size: calc(.75em + .375rem) calc(.75em + .375rem);',
-            '.form-control.is-valid.is-pristine': 'background-image: unset; border-color:#CFCFCF;'
-        },
-        onSuccess: function(evt) {
-            console.log("===INIT SUCCESS===");
-            console.log(evt); //undefinded
-            $(".lds-spinner").remove();
-            $("#submit").removeAttr('disabled');
-        },
-        onError: function(evt) {
-            console.log("===INIT ERROR===");
-            console.log(evt); //undefined
-        },
-        placeholders: {
-            holdername: 'Card holder',
-            cardnumber: '0000 0000 0000 0000',
-            expiration: 'MM/YY',
-            cvc: 'CVC'
-        },
-        onBlur: function (evt) {
-            console.log("===BLURED===");
-            console.log(evt);
-        },
-        onValidated: function (evt) {
-            console.log("===VALIDATED===");
-            console.log(evt);
-            if(!evt.isValid){
-                $("#" + evt.id).attr('data-isvalid', 'false');
-            }else{
-                $("#" + evt.id).attr('data-isvalid', 'true');
-                $("#message").hide("fast")
-            }
-        },
-        onFocus: function (evt) {
-            console.log("===FOCUS===");
-            console.log(evt);
-        }
-    });
+  apiKey: 'cf3f7c46-5738-48fc-bc41-9c7a5c4ec8d2',
+  url: 'https://test.saferpay.com/Fields/249343',
+  placeholders: {
+    holdername: 'Karteninhaber',
+    cardnumber: '0000 0000 0000 0000',
+    expiration: 'MM/JJJJ',
+    cvc: '000'
+  },
+  style: {
+    '.form-control': 'border-left: none; border-top: none; border-right: none; border-radius: unset;'
+  },
+  cssUrl: '',
+  onSuccess: function() {
+    var element = document.getElementById('submit');
+    element.removeAttribute('disabled');
+  },
+  onError: function(evt) {
+    console.log('Error in init: ' + evt.message);
+  }
+});
 
-    function submit(){
-        console.log("===SUBMIT===");
-        var panvalid = $("#fields-card-number").attr('data-isvalid');
-        var cvcvalid = $("#fields-cvc").attr('data-isvalid');
-        var holdervalid = $("#fields-holder-name").attr('data-isvalid');
-        var expvalid = $("#fields-expiration").attr('data-isvalid');
-        console.log("Field validation - PAN: " + panvalid + " CVC: " + cvcvalid + " HolderName: " + holdervalid + " Expiration: " + expvalid);
-        if(panvalid === "true" && cvcvalid === "true" && holdervalid === "true" && expvalid === "true"){
-            console.log("===DATA VALID => SUBMIT===");
-            SaferpayFields.submit({
-                onSuccess: function (evt) {
-                    console.log("===SUBMIT SUCCESS===");
-                    console.log(evt);
-                    $("#hf-token").val(evt.token);
-                    $("#amount").val($("#input-amount").val());
-                    $("#currency").val($("#input-currency").val());
-                    $("#address").submit();
-                },
-                onError: function (evt) {
-                    console.log("===SUBMIT ERROR===");
-                    console.log(evt);
-                    $("#message")
-                        .show("fast")
-                        .html("<p>" + evt.message + "</p>");
-                }
-            });
-        }else{
-            $("#message")
-                .show("fast")
-                .html("<p>Card details are invalid! Please check your input!</p>");
-        }
+document.getElementById('submit').onclick = function() {
+  SaferpayFields.submit({
+    onSuccess: function(evt) {
+      document.getElementById('token').value = evt.token;
+    },
+    onError: function(evt) {
+      console.log('Error in submit: ' + evt.message);
     }
+  });
+};
 
 </script>
 
